@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root "scenarios#index"
+  
   resources :sources
   resources :resources
   resources :scenarios
