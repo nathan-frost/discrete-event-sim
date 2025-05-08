@@ -11,4 +11,11 @@
 #  user_id              :integer
 #
 class Scenario < ApplicationRecord
+  belongs_to :user
+  has_many  :resources, dependent: :destroy
+  has_many  :sources, dependent: :destroy
+
+  validates :scenario_length, numericality: { greater_than: 0 }
+  validates :scenario_length, presence: true
+
 end
