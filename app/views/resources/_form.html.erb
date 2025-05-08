@@ -1,0 +1,52 @@
+<%= form_with(model: resource) do |form| %>
+  <% if resource.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(resource.errors.count, "error") %> prohibited this resource from being saved:</h2>
+
+      <ul>
+        <% resource.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :scenario_id, style: "display: block" %>
+    <%= form.number_field :scenario_id %>
+  </div>
+
+  <div>
+    <%= form.label :resource_name, style: "display: block" %>
+    <%= form.text_field :resource_name %>
+  </div>
+
+  <div>
+    <%= form.label :resource_description, style: "display: block" %>
+    <%= form.textarea :resource_description %>
+  </div>
+
+  <div>
+    <%= form.label :resource_capacity, style: "display: block" %>
+    <%= form.text_field :resource_capacity %>
+  </div>
+
+  <div>
+    <%= form.label :resource_time_mean, style: "display: block" %>
+    <%= form.text_field :resource_time_mean %>
+  </div>
+
+  <div>
+    <%= form.label :resource_time_variance, style: "display: block" %>
+    <%= form.text_field :resource_time_variance %>
+  </div>
+
+  <div>
+    <%= form.label :resource_time_distribution, style: "display: block" %>
+    <%= form.text_field :resource_time_distribution %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -10,9 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_08_031539) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_08_031847) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "resources", force: :cascade do |t|
+    t.integer "scenario_id"
+    t.string "resource_name"
+    t.text "resource_description"
+    t.float "resource_capacity"
+    t.float "resource_time_mean"
+    t.float "resource_time_variance"
+    t.string "resource_time_distribution"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "scenarios", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "scenario_name"
+    t.text "scenario_description"
+    t.float "scenario_length"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "solid_cable_messages", force: :cascade do |t|
     t.binary "channel", null: false
@@ -154,6 +175,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_08_031539) do
     t.index ["expires_at"], name: "index_solid_queue_semaphores_on_expires_at"
     t.index ["key", "value"], name: "index_solid_queue_semaphores_on_key_and_value"
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
+  end
+
+  create_table "sources", force: :cascade do |t|
+    t.integer "scenario_id"
+    t.float "arrival_interval_mean"
+    t.float "arrival_interval_variance"
+    t.string "arrival_interval_distribution"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
