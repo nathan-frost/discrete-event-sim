@@ -11,10 +11,7 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.number_field :user_id %>
-  </div>
+  <%= form.hidden_field :user_id, value: @current_user.id %>
 
   <div>
     <%= form.label :scenario_name, style: "display: block" %>
@@ -29,6 +26,21 @@
   <div>
     <%= form.label :scenario_length, style: "display: block" %>
     <%= form.text_field :scenario_length %>
+  </div>
+
+  <h3>Arrival Generating Process</h3>
+  <div>
+  
+    <%= form.fields_for :sources do |source_form| %>
+      <%= render 'source_fields', f: source_form %>
+    <% end %>
+  </div>
+
+  <h3>Resources</h3>
+  <div>
+    <%= form.fields_for :resources do |resource_form| %>
+      <%= render 'resource_fields', f: resource_form %>
+    <% end %>
   </div>
 
   <div>

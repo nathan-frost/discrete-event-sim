@@ -1,0 +1,22 @@
+<div class="resource-fields">
+  <%= f.label :resource_name %>
+  <%= f.text_field :resource_name %>
+
+  <%= f.label :resource_description %>
+  <%= f.text_area :resource_description %>
+
+  <%= f.label :resource_capacity %>
+  <%= f.text_field :resource_capacity %>
+
+  <%= f.label :resource_time_mean %>
+  <%= f.text_field :resource_time_mean %>
+
+  <%= f.label :resource_time_variance %>
+  <%= f.text_field :resource_time_variance %>
+
+  <%= f.label :resource_time_distribution %>
+  <%= f.text_field :resource_time_distribution %>
+
+  <%= link_to 'Remove Resource', '#', class: 'remove-resource' %>
+  <hr>
+</div>

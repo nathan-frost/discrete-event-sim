@@ -13,6 +13,10 @@ class ScenariosController < ApplicationController
   # GET /scenarios/new
   def new
     @scenario = Scenario.new
+    @current_user = current_user
+    @scenario.resources.build
+    @scenario.sources.build
+
   end
 
   # GET /scenarios/1/edit
@@ -66,5 +70,8 @@ class ScenariosController < ApplicationController
     # Only allow a list of trusted parameters through.
     def scenario_params
       params.expect(scenario: [ :user_id, :scenario_name, :scenario_description, :scenario_length ])
-    end
+      params.require(:scenario).permit(:scenario_name, :scenario_description, :scenario_length, :user_id,
+        resources_attributes: [:id, :resource_name, :resource_description, :resource_capacity, :resource_time_mean, :resource_time_variance, :resource_time_distribution ],
+        sources_attributes: [:id, :arrival_interval_mean, :arrival_interval_variance, :arrival_interval_distribution ]
+  )    end
 end
