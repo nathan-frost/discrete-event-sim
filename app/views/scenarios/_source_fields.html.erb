@@ -6,7 +6,5 @@
   <%= f.text_field :arrival_interval_variance %>
 
   <%= f.label :arrival_interval_distribution %>
-  <%= f.text_field :arrival_interval_distribution %>
-
-  <hr>
+  <%= f.select :arrival_interval_distribution, ['Normal', 'Exponential'] %>
 </div>
