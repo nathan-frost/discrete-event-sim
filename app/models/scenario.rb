@@ -15,8 +15,8 @@ class Scenario < ApplicationRecord
   has_many  :resources, dependent: :destroy
   has_many  :sources, dependent: :destroy
 
-  accepts_nested_attributes_for :resources
-  accepts_nested_attributes_for :sources
+  accepts_nested_attributes_for :resources, allow_destroy: true
+  accepts_nested_attributes_for :sources, allow_destroy: true
 
   validates :scenario_length, numericality: { greater_than: 0 }
   validates :scenario_length, presence: true

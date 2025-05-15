@@ -37,10 +37,22 @@
   </div>
 
   <h3>Resources</h3>
-  <div>
-    <%= form.fields_for :resources do |resource_form| %>
-      <%= render 'resource_fields', f: resource_form %>
-    <% end %>
+  
+
+  <div data-controller="nested-form" data-nested-form-wrapper-selector-value="#resource-fields">
+    <div id="resource-fields">
+      <%= form.fields_for :resources do |resource_form| %>
+        <%= render 'resource_fields', f: resource_form %>
+      <% end %>
+    </div>
+
+    <template data-nested-form-target="template">    
+      <%= form.fields_for :resources do |resource_form| %>
+        <%= render 'resource_fields', f: resource_form %>
+      <% end %>
+    </template>
+
+    <%= button_tag 'Add Resource', type: 'button', data: { action: 'nested-form#add' } %>
   </div>
 
   <div>

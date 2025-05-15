@@ -1,4 +1,4 @@
-<div class="resource-fields">
+<div class="resource-fields" data-nested-form-target="field">
   <%= f.label :resource_name %>
   <%= f.text_field :resource_name %>
 
@@ -17,6 +17,6 @@
   <%= f.label :resource_time_distribution %>
   <%= f.text_field :resource_time_distribution %>
 
-  <%= link_to 'Remove Resource', '#', class: 'remove-resource' %>
-  <hr>
+  <%= f.hidden_field :_destroy, class: "destroy-flag" %>
+  <%= link_to 'Remove', '#', class: 'remove-resource', data: { action: 'nested-form#remove' } %>
 </div>
