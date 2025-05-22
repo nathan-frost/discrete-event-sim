@@ -8,21 +8,11 @@ class RunSimulationJob < ApplicationJob
     stdout, stderr, status = Open3.capture3("python3 #{script}", stdin_data: input)
 
     if status.success?
-      results = JSON.parse(stdout)
-
-      scenario_id = simulation_json["id"]
-      ActionCable.server.broadcast(
-        "simulation_results_#{scenario_id}",
-        { status: "complete", results: results }
-      )
-
+      Rails.logger.info("🎉 Simulation complete! Output:")
+      Rails.logger.info(stdout)  # <--- print simulation results to server log
     else
-      Rails.logger.error("Simulation failed: #{stderr}")
-      scenario_id = simulation_json["id"]
-      ActionCable.server.broadcast(
-        "simulation_results_#{scenario_id}",
-        { status: "error", error: stderr }
-      )
+      Rails.logger.error("💥 Simulation failed:")
+      Rails.logger.error(stderr)
     end
   end
 end

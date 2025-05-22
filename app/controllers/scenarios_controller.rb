@@ -25,30 +25,26 @@ class ScenariosController < ApplicationController
 
   # POST /scenarios or /scenarios.json
   def create
-    #request.format = :json  #temporary for debugging only!
-  
     @scenario = Scenario.new(scenario_params)
 
     respond_to do |format|
       if @scenario.save
-        format.html { redirect_to @scenario, notice: "Scenario was successfully created." }
-        
-        format.json do  
-          json_data = @scenario.as_json(          
-          #render json: @scenario.as_json(
-            only: [:id, :scenario_name, :scenario_length],
-            include: {
-              sources: { only: [:arrival_interval_mean, :arrival_interval_variance, :arrival_interval_distribution]},
-              resources: { only: [:resource_name, :resource_capacity, :resource_time_mean, :resource_time_variance, :resource_time_distribution]}
-              
-        })
-        
+        # Prepare simulation input
+        json_data = @scenario.as_json(
+          only: [:id, :scenario_name, :scenario_length],
+          include: {
+            sources: { only: [:arrival_interval_mean, :arrival_interval_variance, :arrival_interval_distribution] },
+            resources: { only: [:resource_name, :resource_capacity, :resource_time_mean, :resource_time_variance, :resource_time_distribution, :resource_order] }
+          }
+        )
+
+        # ✅ Always enqueue the job, regardless of HTML or JSON
+        Rails.logger.info("📦 Enqueuing simulation job for scenario #{@scenario.id}")
         RunSimulationJob.perform_later(json_data)
 
         format.html { redirect_to @scenario, notice: "Scenario was successfully created and simulation started." }
         format.json { render json: json_data, status: :created }
-        
-        end
+
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: { errors: @scenario.errors.full_messages }, status: :unprocessable_entity }
