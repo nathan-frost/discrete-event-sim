@@ -25,7 +25,7 @@ class ScenariosController < ApplicationController
 
   # POST /scenarios or /scenarios.json
   def create
-    request.format = :json  # 🚨 temporary for debugging only!
+    #request.format = :json  #temporary for debugging only!
   
     @scenario = Scenario.new(scenario_params)
 
@@ -41,13 +41,12 @@ class ScenariosController < ApplicationController
               sources: { only: [:arrival_interval_mean, :arrival_interval_variance, :arrival_interval_distribution]},
               resources: { only: [:resource_name, :resource_capacity, :resource_time_mean, :resource_time_variance, :resource_time_distribution]}
               
-        })#, status: :created
-       
-          Rails.logger.debug "\n🔍 Scenario JSON Output:\n" + JSON.pretty_generate(json_data)
+        })
+        
+        RunSimulationJob.perform_later(json_data)
 
-          render json: json_data, status: :created
-        
-        
+        format.html { redirect_to @scenario, notice: "Scenario was successfully created and simulation started." }
+        format.json { render json: json_data, status: :created }
         
         end
       else
