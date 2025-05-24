@@ -74,6 +74,9 @@ gem "carrierwave"
 gem "cloudinary"
 gem "kaminari"
 
+#Adding AWS Lambda
+gem 'aws-sdk-lambda'
+
 group :development do
   gem "annotaterb"
   gem "better_errors"
