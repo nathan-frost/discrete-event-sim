@@ -40,12 +40,13 @@ class RunSimulationJob < ApplicationJob
 
     if response.success?
       result = JSON.parse(response.body)
-      Rails.logger.info "✅ Simulation completed: #{result.size} rows"
+      Rails.logger.info "Simulation completed: #{result.size} rows"
+
     else
-      Rails.logger.error "❌ Lambda call failed: #{response.code} - #{response.body}"
+      Rails.logger.error "Lambda call failed: #{response.code} - #{response.body}"
     end
   rescue => e
-    Rails.logger.error "❌ Simulation job error: #{e.class} - #{e.message}"
+    Rails.logger.error "Simulation job error: #{e.class} - #{e.message}"
     raise e
   end
 end
