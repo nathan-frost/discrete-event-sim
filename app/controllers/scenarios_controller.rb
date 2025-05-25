@@ -25,36 +25,36 @@ class ScenariosController < ApplicationController
 
   # POST /scenarios or /scenarios.json
   def create
-    #request.format = :json  #temporary for debugging only!
-  
     @scenario = Scenario.new(scenario_params)
 
     respond_to do |format|
       if @scenario.save
-        format.html { redirect_to @scenario, notice: "Scenario was successfully created." }
-        
-        format.json do  
-          json_data = @scenario.as_json(          
-          #render json: @scenario.as_json(
-            only: [:id, :scenario_name, :scenario_length],
-            include: {
-              sources: { only: [:arrival_interval_mean, :arrival_interval_variance, :arrival_interval_distribution]},
-              resources: { only: [:resource_name, :resource_capacity, :resource_time_mean, :resource_time_variance, :resource_time_distribution]}
-              
-        })
-        
+        json_data = @scenario.as_json(
+          only: [:id, :scenario_name, :scenario_length],
+          include: {
+            sources: {
+              only: [:arrival_interval_mean, :arrival_interval_variance, :arrival_interval_distribution]
+            },
+            resources: {
+              only: [:resource_name, :resource_capacity, :resource_time_mean, :resource_time_variance, :resource_time_distribution, :resource_order]
+            }
+          }
+        )
+
+        Rails.logger.info "📦 Enqueuing RunSimulationJob for scenario #{@scenario.id}"
         RunSimulationJob.perform_later(json_data)
 
-        format.html { redirect_to @scenario, notice: "Scenario was successfully created and simulation started." }
-        format.json { render json: json_data, status: :created }
-        
+        format.html do
+          redirect_to @scenario, notice: "Scenario was successfully created and simulation started."
         end
+        format.json { render json: json_data, status: :created }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: { errors: @scenario.errors.full_messages }, status: :unprocessable_entity }
       end
     end
   end
+
 
   # PATCH/PUT /scenarios/1 or /scenarios/1.json
   def update
@@ -89,7 +89,8 @@ class ScenariosController < ApplicationController
     def scenario_params
       params.expect(scenario: [ :user_id, :scenario_name, :scenario_description, :scenario_length ])
       params.require(:scenario).permit(:scenario_name, :scenario_description, :scenario_length, :user_id,
-        resources_attributes: [:id, :resource_name, :resource_description, :resource_capacity, :resource_time_mean, :resource_time_variance, :resource_time_distribution ],
+        resources_attributes: [:id, :resource_name, :resource_description, :resource_capacity, :resource_time_mean, :resource_time_variance, :resource_time_distribution,
+            :resource_order ],
         sources_attributes: [:id, :arrival_interval_mean, :arrival_interval_variance, :arrival_interval_distribution ]
   )    end
 end

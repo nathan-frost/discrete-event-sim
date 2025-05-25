@@ -6,6 +6,7 @@
 #  resource_capacity          :float
 #  resource_description       :text
 #  resource_name              :string
+#  resource_order             :integer
 #  resource_time_distribution :string
 #  resource_time_mean         :float
 #  resource_time_variance     :float

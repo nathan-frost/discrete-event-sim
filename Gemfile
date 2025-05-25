@@ -74,8 +74,11 @@ gem "carrierwave"
 gem "cloudinary"
 gem "kaminari"
 
-#Adding AWS Lambda
+#Adding gems to integrate with AWS Lambda 
 gem 'aws-sdk-lambda'
+gem 'aws-sdk-core'
+gem 'httparty'
+
 
 group :development do
   gem "annotaterb"
