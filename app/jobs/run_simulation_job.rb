@@ -41,7 +41,19 @@ class RunSimulationJob < ApplicationJob
     if response.success?
       result = JSON.parse(response.body)
       Rails.logger.info "Simulation completed: #{result.size} rows"
-
+      
+      result.each do |row|
+        @scenario = Scenario.find(scenario_data["id"])
+        @scenario.outputs.create!(
+          entity_id: row["entity_id"],
+          resource: row["resource"],
+          arrival_time: row["arrival_time"],
+          start_service: row["start_service"],
+          end_time: row["end_time"],
+          wait_time: row["wait_time"],
+          service_time: row["service_time"]
+        )
+      end
     else
       Rails.logger.error "Lambda call failed: #{response.code} - #{response.body}"
     end

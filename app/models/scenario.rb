@@ -14,6 +14,7 @@ class Scenario < ApplicationRecord
   belongs_to :user
   has_many  :resources, dependent: :destroy
   has_many  :sources, dependent: :destroy
+  has_many :outputs, dependent: :destroy
 
   accepts_nested_attributes_for :resources, allow_destroy: true
   accepts_nested_attributes_for :sources, allow_destroy: true

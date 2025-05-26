@@ -8,6 +8,9 @@ class ScenariosController < ApplicationController
 
   # GET /scenarios/1 or /scenarios/1.json
   def show
+    @scenario = Scenario.find(params[:id])
+    @outputs = @scenario.outputs.order(:entity_id, :start_service)
+
   end
 
   # GET /scenarios/new

@@ -7,4 +7,11 @@
   <%= link_to "Back to scenarios", scenarios_path %>
 
   <%= button_to "Destroy this scenario", @scenario, method: :delete %>
+
+  <h2>Raw Output</h2>
+  <textarea rows="20" cols="120" readonly>
+  <%= JSON.pretty_generate(@outputs.map(&:attributes)) %>
+  </textarea>
+
+
 </div>

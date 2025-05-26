@@ -10,9 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_25_205329) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_26_000845) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "outputs", force: :cascade do |t|
+    t.integer "scenario_id"
+    t.integer "entity_id"
+    t.string "resource"
+    t.float "arrival_time"
+    t.float "start_service"
+    t.float "end_time"
+    t.string "wait_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.float "service_time"
+  end
 
   create_table "resources", force: :cascade do |t|
     t.integer "scenario_id"
@@ -34,6 +47,34 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_25_205329) do
     t.float "scenario_length"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "simulation_events", force: :cascade do |t|
+    t.bigint "scenario_id", null: false
+    t.integer "entity_id"
+    t.string "resource"
+    t.float "arrival_time"
+    t.float "start_service"
+    t.float "end_time"
+    t.float "wait_time"
+    t.float "service_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["scenario_id"], name: "index_simulation_events_on_scenario_id"
+  end
+
+  create_table "simulation_outputs", force: :cascade do |t|
+    t.bigint "scenario_id", null: false
+    t.integer "entity_id"
+    t.string "resource"
+    t.float "arrival_time"
+    t.float "start_service"
+    t.float "end_time"
+    t.float "wait_time"
+    t.float "service_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["scenario_id"], name: "index_simulation_outputs_on_scenario_id"
   end
 
   create_table "solid_cable_messages", force: :cascade do |t|
@@ -199,6 +240,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_25_205329) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "simulation_events", "scenarios"
+  add_foreign_key "simulation_outputs", "scenarios"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
