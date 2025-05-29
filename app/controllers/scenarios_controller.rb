@@ -10,8 +10,41 @@ class ScenariosController < ApplicationController
   def show
     @scenario = Scenario.find(params[:id])
     @outputs = @scenario.outputs.order(:entity_id, :start_service)
+    @chart_data = @scenario.outputs.group(:entity_id).average(:wait_time)
 
+    sorted = @chart_data.sort_by { |_, v| v }
+    @chart_labels = sorted.map(&:first)
+    @chart_values = sorted.map(&:last)
+    
   end
+
+  def refresh_outputs
+    @scenario = Scenario.find(params[:id])
+    @outputs = @scenario.outputs
+
+    if @outputs.any?
+      chart_data = @outputs.group(:entity_id).average(:wait_time).sort_by(&:first)
+      @chart_labels = chart_data.map { |id, _| "Entity #{id}" }
+      @chart_values = chart_data.map(&:last)
+
+      render turbo_stream: turbo_stream.replace(
+        "scenario_outputs_#{@scenario.id}",
+        partial: "scenario_outputs",
+        locals: {
+          scenario: @scenario,
+          outputs: @outputs,
+          chart_labels: @chart_labels,
+          chart_values: @chart_values
+        }
+      )
+    else
+      head :no_content
+    end
+  end
+
+
+
+
 
   # GET /scenarios/new
   def new

@@ -8,7 +8,7 @@
 #  resource      :string
 #  service_time  :float
 #  start_service :float
-#  wait_time     :string
+#  wait_time     :float
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  entity_id     :integer

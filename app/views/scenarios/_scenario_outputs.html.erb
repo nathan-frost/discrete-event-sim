@@ -1,0 +1,28 @@
+<%= turbo_frame_tag "scenario_outputs_#{scenario.id}", data: { controller: "frame-reload" } do %>
+  <div
+    data-controller="output"
+    data-output-url-value="<%= refresh_outputs_path(scenario) %>"
+    data-output-interval-value="5000">
+  </div>
+
+  <h2>Raw Output</h2>
+  <textarea rows="20" cols="120" readonly>
+    <%= JSON.pretty_generate(outputs.map(&:attributes)) %>
+  </textarea>
+
+  <h2>Simulation Summary</h2>
+  <ul>
+    <li>Average Wait Time: <%= number_with_precision(outputs.average(:wait_time), precision: 2) %></li>
+    <li>Average Service Time: <%= number_with_precision(outputs.average(:service_time), precision: 2) %></li>
+    <li>Number of Completions: <%= outputs.count %></li>
+  </ul>
+
+  <canvas
+    data-controller="chart"
+    data-chart-label-value="Wait Time by Entity"
+    data-chart-labels-value="<%= raw chart_labels.to_json %>"
+    data-chart-data-value="<%= raw chart_values.to_json %>"
+    width="600"
+    height="300">
+  </canvas>
+<% end %>

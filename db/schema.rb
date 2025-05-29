@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_26_000845) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_29_021950) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -21,7 +21,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_26_000845) do
     t.float "arrival_time"
     t.float "start_service"
     t.float "end_time"
-    t.string "wait_time"
+    t.float "wait_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.float "service_time"

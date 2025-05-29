@@ -18,4 +18,6 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   post '/simulate', to: 'simulation#create'
+  get "scenarios/:id/refresh_outputs", to: "scenarios#refresh_outputs", as: :refresh_outputs
+
 end
