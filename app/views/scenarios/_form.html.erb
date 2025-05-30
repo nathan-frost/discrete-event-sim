@@ -1,8 +1,9 @@
-<%= form_with(model: scenario) do |form| %>
+<%= form_with(model: scenario, class: "needs-validation") do |form| %>
   <% if scenario.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(scenario.errors.count, "error") %> prohibited this scenario from being saved:</h2>
-
+    <div class="alert alert-danger">
+      <h4 class="alert-heading">
+        <%= pluralize(scenario.errors.count, "error") %> prohibited this scenario from being saved:
+      </h4>
       <ul>
         <% scenario.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -13,47 +14,46 @@
 
   <%= form.hidden_field :user_id, value: @current_user.id %>
 
-  <div>
-    <%= form.label :scenario_name, style: "display: block" %>
-    <%= form.text_field :scenario_name %>
+  <div class="mb-3">
+    <%= form.label :scenario_name, class: "form-label" %>
+    <%= form.text_field :scenario_name, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label :scenario_description, style: "display: block" %>
-    <%= form.textarea :scenario_description %>
+  <div class="mb-3">
+    <%= form.label :scenario_description, class: "form-label" %>
+    <%= form.text_area :scenario_description, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label :scenario_length, style: "display: block" %>
-    <%= form.text_field :scenario_length %>
+  <div class="mb-3">
+    <%= form.label :scenario_length, class: "form-label" %>
+    <%= form.text_field :scenario_length, class: "form-control" %>
   </div>
 
-  <h3>Arrival Generating Process</h3>
-  <div>
-  
+  <h3 class="mt-4">Arrival Generating Process</h3>
+  <div class="mb-3">
     <%= form.fields_for :sources do |source_form| %>
       <%= render 'source_fields', f: source_form %>
     <% end %>
   </div>
 
-  <h3>Resources</h3>
-  <div data-controller="nested-form" data-nested-form-wrapper-selector-value="#resource-fields">
+  <h3 class="mt-4">Resources</h3>
+  <div class="mb-3" data-controller="nested-form" data-nested-form-wrapper-selector-value="#resource-fields">
     <div id="resource-fields">
       <%= form.fields_for :resources do |resource_form| %>
         <%= render 'resource_fields', f: resource_form %>
       <% end %>
     </div>
 
-    <template data-nested-form-target="template">    
+    <template data-nested-form-target="template">
       <%= form.fields_for :resources do |resource_form| %>
         <%= render 'resource_fields', f: resource_form %>
       <% end %>
     </template>
 
-    <%= button_tag 'Add Resource', type: 'button', data: { action: 'nested-form#add' } %>
+    <%= button_tag 'Add Resource', type: 'button', class: "btn btn-secondary", data: { action: 'nested-form#add' } %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="mt-4">
+    <%= form.submit "Save Scenario", class: "btn btn-primary" %>
   </div>
 <% end %>

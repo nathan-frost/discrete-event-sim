@@ -1,11 +1,17 @@
-<% content_for :title, "New scenario" %>
+<% content_for :title, "New Scenario" %>
 
-<h1>New scenario</h1>
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header">
+      <h1 class="mb-0">New Scenario</h1>
+    </div>
 
-<%= render "form", scenario: @scenario %>
+    <div class="card-body">
+      <%= render "form", scenario: @scenario %>
+    </div>
 
-<br>
-
-<div>
-  <%= link_to "Back to scenarios", scenarios_path %>
+    <div class="card-footer">
+      <%= link_to "← Back to Scenarios", scenarios_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
 </div>

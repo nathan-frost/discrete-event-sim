@@ -1,25 +1,43 @@
-<div class="resource-fields" data-nested-form-target="field">
-  <%= f.label :resource_name %>
-  <%= f.text_field :resource_name %>
+<div class="resource-fields mb-3 border p-3 rounded" data-nested-form-target="field">
+  <div class="row mb-2">
+    <div class="col-md-6">
+      <%= f.label :resource_name, class: "form-label" %>
+      <%= f.text_field :resource_name, class: "form-control" %>
+    </div>
+    <div class="col-md-6">
+      <%= f.label :resource_description, class: "form-label" %>
+      <%= f.text_area :resource_description, class: "form-control", rows: 2 %>
+    </div>
+  </div>
 
-  <%= f.label :resource_description %>
-  <%= f.text_area :resource_description %>
+  <div class="row mb-2">
+    <div class="col-md-4">
+      <%= f.label :resource_capacity, class: "form-label" %>
+      <%= f.text_field :resource_capacity, class: "form-control" %>
+    </div>
+    <div class="col-md-4">
+      <%= f.label :resource_time_mean, class: "form-label" %>
+      <%= f.text_field :resource_time_mean, class: "form-control" %>
+    </div>
+    <div class="col-md-4">
+      <%= f.label :resource_time_variance, class: "form-label" %>
+      <%= f.text_field :resource_time_variance, class: "form-control" %>
+    </div>
+  </div>
 
-  <%= f.label :resource_capacity %>
-  <%= f.text_field :resource_capacity %>
-
-  <%= f.label :resource_time_mean %>
-  <%= f.text_field :resource_time_mean %>
-
-  <%= f.label :resource_time_variance %>
-  <%= f.text_field :resource_time_variance %>
-
-  <%= f.label :resource_order %>
-  <%= f.number_field :resource_order %>
-
-  <%= f.label :resource_time_distribution %>
-  <%= f.select :resource_time_distribution, ['Normal', 'Exponential'] %>
+  <div class="row mb-2">
+    <div class="col-md-4">
+      <%= f.label :resource_order, class: "form-label" %>
+      <%= f.number_field :resource_order, class: "form-control" %>
+    </div>
+    <div class="col-md-4">
+      <%= f.label :resource_time_distribution, class: "form-label" %>
+      <%= f.select :resource_time_distribution, ['Normal', 'Exponential'], {}, class: "form-select" %>
+    </div>
+    <div class="col-md-4 d-flex align-items-end">
+      <%= link_to 'Remove', '#', class: 'btn btn-danger btn-sm ms-2', data: { action: 'nested-form#remove' } %>
+    </div>
+  </div>
 
   <%= f.hidden_field :_destroy, class: "destroy-flag" %>
-  <%= link_to 'Remove', '#', class: 'remove-resource', data: { action: 'nested-form#remove' } %>
 </div>

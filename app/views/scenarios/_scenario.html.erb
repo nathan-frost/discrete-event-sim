@@ -1,22 +1,25 @@
-<div id="<%= dom_id scenario %>">
-  <p>
-    <strong>User:</strong>
-    <%= scenario.user_id %>
-  </p>
-
-  <p>
-    <strong>Scenario name:</strong>
-    <%= scenario.scenario_name %>
-  </p>
-
-  <p>
-    <strong>Scenario description:</strong>
-    <%= scenario.scenario_description %>
-  </p>
-
-  <p>
-    <strong>Scenario length:</strong>
-    <%= scenario.scenario_length %>
-  </p>
-
+<div id="<%= dom_id scenario %>" class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title mb-3">Scenario Details</h5>
+    <table class="table table-bordered table-striped table-sm w-auto mb-0">
+      <tbody>
+        <tr>
+          <th scope="row">User</th>
+          <td><%= scenario.user_id %></td>
+        </tr>
+        <tr>
+          <th scope="row">Scenario Name</th>
+          <td><%= scenario.scenario_name %></td>
+        </tr>
+        <tr>
+          <th scope="row">Scenario Description</th>
+          <td><%= scenario.scenario_description %></td>
+        </tr>
+        <tr>
+          <th scope="row">Scenario Length</th>
+          <td><%= scenario.scenario_length %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
